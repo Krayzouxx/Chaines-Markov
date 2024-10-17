@@ -1,5 +1,6 @@
 from Shadock import simulation, stochastique, puits, stationnaire, Diagonalisation
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Définition de la matrice de transition P et du vecteur initial pi0
 P = np.array([[5 / 6, 1 / 12, 1 / 12], [1 / 4, 1 / 2, 1 / 4], [1 / 4, 0, 3 / 4]])
@@ -18,13 +19,24 @@ for i in range(len(P)):
 
 # Q4: Simulation de l'évolution des probabilités dans le temps
 print("\nQ4: Simulation de l'évolution des probabilités :")
-pi0 = [1, 0, 0]  # Initialement en bonne santé
+pi0 = [1, 0, 0]
+t, pi = simulation(P, pi0, 0, 100)
 
-[t, pi] = simulation(P, pi0, 0, 100)
-print(f"Probabilité après 5 jours : {pi[5]}")
-print(f"Probabilité après 10 jours : {pi[10]}")
-print(f"Probabilité après 50 jours : {pi[50]}")
-print(f"Probabilité après 100 jours : {pi[100]}")
+# Affichage des probabilités en fonction du temps
+plt.figure(figsize=(10, 6))
+plt.plot(t, pi[:, 0], label="Bonne santé (État 1)", color='green')
+plt.plot(t, pi[:, 1], label="Enrhumé (État 2)", color='orange')
+plt.plot(t, pi[:, 2], label="Malade (État 3)", color='red')
+
+# Ajout des titres et légendes
+plt.title("Évolution des probabilités de M. Shadock dans le temps", fontsize=14)
+plt.xlabel("Temps (jours)", fontsize=12)
+plt.ylabel("Probabilité", fontsize=12)
+plt.legend(loc='best')
+plt.grid(True)
+
+# Affichage du graphique
+plt.show()
 
 # Q5: Calcul de la probabilité stationnaire
 print("\nQ5: Calcul de la probabilité stationnaire :")
